@@ -99,8 +99,14 @@ GEM
     debug (1.9.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    dotenv (3.1.0)
+    dotenv-rails (3.1.0)
+      dotenv (= 3.1.0)
+      railties (>= 6.1)
     drb (2.2.1)
     erubi (1.12.0)
+    esbuild-rails (0.1.4)
+      rails (>= 6.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.1)
@@ -242,6 +248,8 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
+  dotenv-rails
+  esbuild-rails
   jbuilder
   jsbundling-rails
   pg (~> 1.1)
