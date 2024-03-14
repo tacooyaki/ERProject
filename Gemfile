@@ -34,6 +34,15 @@ group :development, :test do
   gem 'dotenv-rails'
 end
 
+# For the admin dashboard
+gem 'activeadmin'
+
+# Used with active admin
+gem 'devise'
+
+# Sassc for sassc needs
+gem 'sassc', '~> 2.4'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
