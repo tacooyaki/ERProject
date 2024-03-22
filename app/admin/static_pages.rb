@@ -1,5 +1,6 @@
 ActiveAdmin.register StaticPage do
   permit_params :title, :slug, :content
+  config.filters = false # Added this filter as AA or Ransack was causing issues with ActionText.
 
   form do |f|
     f.inputs 'Static Page Details' do
