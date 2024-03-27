@@ -3,6 +3,11 @@ class Product < ApplicationRecord
   belongs_to :category
   has_many :order_items
 
+  scope :on_sale, -> { where(is_on_sale: true) }
+  scope :recently_added, -> { order(created_at: :desc) }
+  scope :recently_updated, -> { order(updated_at: :desc) }
+
+
   def self.ransackable_associations(_auth_object = nil)
     %w[category order_items]
   end
