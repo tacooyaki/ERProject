@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_21_033747) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_27_034615) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -119,6 +119,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_21_033747) do
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_on_sale"
+    t.decimal "sale_price"
   end
 
   create_table "static_pages", force: :cascade do |t|
