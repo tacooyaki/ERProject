@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'categories/index'
   get 'pages/show'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -10,5 +11,18 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
   get '/pages/:slug', to: 'pages#show', as: :static_page
+
+  root 'home#index'
+
+  # Route for a products categories
+  get 'categories', to: 'categories#index'
+
+  # Route for searching through products
+  get 'search_products', to: 'products#search'
+
+  # Resources for products
+  resources :products
+
 end
