@@ -46,3 +46,59 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.products-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-card {
+    width: calc(33.333% - 20px); /* This sets 3 items per row with a bit of a gap */
+    border: 1px solid #ddd; /* border around card */
+    border-radius: 8px; /* rounds corners */
+    overflow: hidden; /* so it fits within the borders */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card img {
+    width: 100%; /* so the  image covers card width */
+    height: auto;
+}
+
+.product-card h2 {
+    padding: 10px 15px;
+    font-size: 1.25rem; /* An adjustment to the  title size */
+    color: #333; /* Titles main color */
+}
+
+.product-card p {
+    padding: 0 15px 10px;
+    color: #666; /* text color */
+}
+
+.view-product-btn {
+    padding: 10px 15px;
+    background-color: #007bff; /*  button color */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* These are to add a bit of responsive adjustments where needed */
+@media (max-width: 768px) {
+    .product-card {
+        width: calc(50% - 20px); /* Smaller screens will display 2 items in a row */
+    }
+}
+
+@media (max-width: 480px) {
+    .product-card {
+        width: 100%; /* The smallest screens will only show 1 item */
+    }
+}

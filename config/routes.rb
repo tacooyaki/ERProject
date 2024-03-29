@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'home/index'
   get 'categories/index'
   get 'pages/show'
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -14,15 +15,16 @@ Rails.application.routes.draw do
 
   get '/pages/:slug', to: 'pages#show', as: :static_page
 
-  root 'home#index'
+  #root 'home#index'
 
+  root 'products#index'
   # Route for a products categories
   get 'categories', to: 'categories#index'
 
-  # Route for searching through products
-  get 'search_products', to: 'products#search'
+  # route for searching through products
+  get 'products/search', to: 'products#search', as: :search_products
 
   # Resources for products
-  resources :products
+  resources :products, only: [:show]
 
 end

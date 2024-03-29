@@ -1,11 +1,15 @@
-<h1>Products</h1>
+<h1>Available Products</h1>
 
-<div class="products">
+<div class="products-grid">
   <% @products.each do |product| %>
-    <div class="product">
-      <%# Display product details %>
+    <div class="product-card">
+      <% if product.images.attached? %>
+        <%= image_tag product.images.first %>
+      <% end %>
       <h2><%= product.name %></h2>
-      <%# Add more product details here %>
+      <p><%= product.description %></p>
+      <p><%= number_to_currency(product.price) %></p>
+      <%= link_to 'View Product', product_path(product), class: 'view-product-btn' %>
     </div>
   <% end %>
 </div>
