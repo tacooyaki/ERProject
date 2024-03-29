@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   get '/pages/:slug', to: 'pages#show', as: :static_page
 
-  #root 'home#index'
+  #root 'home#index' Using products index as root - this is no longer used.
 
   root 'products#index'
   # Route for a products categories
@@ -25,6 +25,6 @@ Rails.application.routes.draw do
   get 'products/search', to: 'products#search', as: :search_products
 
   # Resources for products
-  resources :products, only: [:show]
+  resources :products, only: [:index, :show]
 
 end

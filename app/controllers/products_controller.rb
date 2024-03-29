@@ -8,4 +8,8 @@ class ProductsController < ApplicationController
     @products = Product.where("name LIKE ? OR description LIKE ?", "%#{params[:query]}%", "%#{params[:query]}%")
     render :index
   end
+
+  def show
+    @product = Product.find(params[:id])
+  end
 end
