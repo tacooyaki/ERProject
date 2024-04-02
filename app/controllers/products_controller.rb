@@ -13,6 +13,7 @@ class ProductsController < ApplicationController
     if params[:recently_updated].present? && !params[:newly_added].present?
       @products = @products.recently_updated
     end
+    @products = @products.page(params[:page]).per(10)
   end
 
   def search
