@@ -1,5 +1,16 @@
 <h1>Available Products</h1>
 
+<!-- Adds links for each category. Can be used on other views that need category navigation. -->
+<% Category.all.each do |category| %>
+  <%= link_to category.name, category_products_path(category_id: category.id) %>
+<% end %>
+
+<% if @category %>
+  <h2><%= @category.name %> Products</h2>
+<% else %>
+  <h2>All Products</h2>
+<% end %>
+
 <div class="products-grid">
   <% @products.each do |product| %>
     <div class="product-card">
@@ -12,4 +23,7 @@
       <%= link_to 'View Product', product_path(product), class: 'view-product-btn' %>
     </div>
   <% end %>
+
+
+
 </div>

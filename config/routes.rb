@@ -27,4 +27,9 @@ Rails.application.routes.draw do
   # Resources for products
   resources :products, only: [:index, :show]
 
+  # Filters products by category
+  resources :categories, only: [] do
+    resources :products, only: [:index], path: 'category_products'
+  end
+
 end
