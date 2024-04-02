@@ -46,6 +46,10 @@ gem 'sassc', '~> 2.4'
 # Gem for using Image Magick with rails
 gem 'mini_magick'
 
+# Adds pagination
+gem 'kaminari'
+
+
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
