@@ -7,7 +7,25 @@ ActiveAdmin.register Product do
 
   remove_filter :images
 
-  permit_params :name, :description, :price, :category_id, images: []
+  permit_params :name, :description, :price, :category_id, :is_on_sale, images: []
+
+  # Ensures that existing images with a product are not removed when updating a product
+  controller do
+    def update
+      @product = Product.find(params[:id])
+      @product.update(permitted_params[:product].except(:images))
+
+      if params[:product][:images].present?
+        @product.images.attach(params[:product][:images])
+      end
+
+      if @product.save
+        redirect_to [:admin, @product], notice: "Product was successfully updated."
+      else
+        render :edit, notice: "Unable to update product."
+      end
+    end
+  end
 
   index do
     selectable_column
