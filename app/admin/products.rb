@@ -16,6 +16,7 @@ ActiveAdmin.register Product do
     column :description
     column :price
     column :category
+    column :is_on_sale
     actions
   end
 
@@ -25,6 +26,7 @@ ActiveAdmin.register Product do
       f.input :description
       f.input :price
       f.input :category, as: :select, collection: Category.all
+      f.input :is_on_sale, as: :boolean, label: 'On Sale'
       f.input :images, as: :file, input_html: { multiple: true }
     end
     f.actions

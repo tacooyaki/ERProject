@@ -1,0 +1,11 @@
+<%= form_with(url: products_path, method: :get, local: true) do |form| %>
+  <%= form.text_field :search, placeholder: "Search products..." %>
+
+  <%= form.collection_select :category_id, Category.all, :id, :name, include_blank: "All Categories" %>
+
+  <%= form.check_box :on_sale %>
+
+  <%= form.label :on_sale, "Only Show On Sale Products" %>
+
+  <%= form.submit "Search" %>
+<% end %>

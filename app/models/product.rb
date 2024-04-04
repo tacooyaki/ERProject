@@ -16,4 +16,10 @@ class Product < ApplicationRecord
     %w[id name description price category_id created_at updated_at]
   end
 
+  before_validation :default_values
+  private
+  def default_values
+    self.is_on_sale ||= false
+  end
+
 end

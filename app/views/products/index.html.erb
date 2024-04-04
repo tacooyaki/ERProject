@@ -9,6 +9,9 @@
 <%= link_to 'Recently Added', products_path(recently_added: true) %>
 <%= link_to 'Recently Updated', products_path(recently_updated: true) %>
 
+<!-- Place where needed during final cleanup, not a perm spot.-->
+<%= render 'search_form' %>
+
 <% if @category %>
   <h2><%= @category.name %> Products</h2>
 <% else %>
@@ -27,6 +30,8 @@
       <%= link_to 'View Product', product_path(product), class: 'view-product-btn' %>
     </div>
   <% end %>
+
+
 
   <%= paginate @products %>
 
