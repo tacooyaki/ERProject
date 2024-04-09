@@ -15,18 +15,13 @@ class ProductsController < ApplicationController
     end
 
     # Some more filters, this time based on query params
-    @products = @products.on_sale if params[:on_sale].present?
+    @products = @products.on_sale if params[:on_sale] == '1'
     @products = @products.recently_added if params[:newly_added].present?
 
     # This meets the "recently updated" to not include "newly added" requirements
     # It applies to products if both filters are applied
     if params[:recently_updated].present? && !params[:newly_added].present?
       @products = @products.recently_updated
-    end
-
-    # Checks the on_sale param
-    if params[:on_sale] == '1'
-      @products = @products.where(is_on_sale: true)
     end
 
     # Pagination
