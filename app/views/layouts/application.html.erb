@@ -12,12 +12,15 @@
   <nav>
     <%= link_to 'Home', root_path %>
     <%= link_to 'Categories', categories_path %>
+    <%= link_to 'Cart', cart_path %>
+    <% if session[:cart].present? %>
+      (<%= session[:cart].sum { |item| item["quantity"] } %> items)
+    <% end %>
     <%= form_with url: search_products_path, method: :get, local: true do |form| %>
    <!-- NOTE: Search form, here, may be removed per Rails convention and DRY. -->
       <%= form.text_field :query, placeholder: 'Search products...' %>
       <%= form.submit 'Search' %>
     <% end %>
-    <!-- Possible spot for links to a cart and or to a user account. -->
   </nav>
 </header>
 

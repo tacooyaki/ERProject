@@ -5,7 +5,6 @@
   <%= link_to category.name, category_products_path(category_id: category.id) %>
 <% end %>
 
-<%= link_to 'On Sale', products_path(on_sale: true) %>
 <%= link_to 'Recently Added', products_path(recently_added: true) %>
 <%= link_to 'Recently Updated', products_path(recently_updated: true) %>
 
@@ -30,8 +29,6 @@
       <%= link_to 'View Product', product_path(product), class: 'view-product-btn' %>
     </div>
   <% end %>
-
-
 
   <%= paginate @products %>
 

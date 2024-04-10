@@ -10,4 +10,6 @@
 
 </div>
 
+<%= button_to 'Add to Cart', add_to_cart_path(product_id: @product.id), method: :post %>
+
 <%= link_to 'Back to Products', products_path %>
