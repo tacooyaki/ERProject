@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
   # Cart operations
   post '/add_to_cart/:product_id', to: 'carts#add_to_cart', as: 'add_to_cart'
-  patch '/update_cart_item/:product_id', to: 'carts#update_cart_item', as: 'update_cart_item'
+  patch '/update_cart_item', to: 'carts#update_cart_item', as: 'update_cart_item'
   delete '/remove_from_cart/:product_id', to: 'carts#remove_from_cart', as: 'remove_from_cart'
 
 end
