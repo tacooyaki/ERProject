@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # devise_for :users
+
+  resources :orders, only: [:new, :create, :show]
+
   get 'home/index'
   get 'categories/index'
   get 'pages/show'
@@ -12,6 +16,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  devise_for :users
 
   get '/pages/:slug', to: 'pages#show', as: :static_page
 
@@ -39,5 +44,9 @@ Rails.application.routes.draw do
   post '/add_to_cart/:product_id', to: 'carts#add_to_cart', as: 'add_to_cart'
   patch '/update_cart_item', to: 'carts#update_cart_item', as: 'update_cart_item'
   delete '/remove_from_cart/:product_id', to: 'carts#remove_from_cart', as: 'remove_from_cart'
+
+  # Checkout
+  resource :cart, only: [:show]
+  resources :orders, only: [:new, :create, :show]
 
 end
