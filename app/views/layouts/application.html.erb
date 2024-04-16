@@ -16,13 +16,26 @@
     <% if session[:shopping_cart].present? %>
       (<%= session[:shopping_cart].values.sum %> items)
     <% end %>
+
+    <% if user_signed_in? %>
+      <%= link_to 'Checkout', new_order_path, class: "checkout-link" %>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <%= link_to 'Profile', edit_user_registration_path %>
+      <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to 'Sign Up', new_user_registration_path %>
+      <%= link_to 'Login', new_user_session_path %>
+    <% end %>
+
     <%= form_with url: search_products_path, method: :get, local: true do |form| %>
-   <!-- NOTE: Search form, here, may be removed per Rails convention and DRY. -->
       <%= form.text_field :query, placeholder: 'Search products...' %>
       <%= form.submit 'Search' %>
     <% end %>
   </nav>
 </header>
+
 
 <main>
   <%= yield %>

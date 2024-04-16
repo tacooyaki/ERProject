@@ -2,7 +2,7 @@
 
 <!-- Adds links for each category. Can be used on other views that need category navigation. -->
 <% Category.all.each do |category| %>
-  <%= link_to category.name, category_products_path(category_id: category.id) %>
+  <%= link_to category.name, category_category_products_path(category_id: category.id) %>
 <% end %>
 
 <%= link_to 'Recently Added', products_path(recently_added: true) %>

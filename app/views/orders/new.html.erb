@@ -1,2 +1,44 @@
-<h1>Orders#new</h1>
-<p>Find me in app/views/orders/new.html.erb</p>
+<%= form_with model: @order, local: true do |form| %>
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+      <ul>
+        <% @order.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend>Shipping Address</legend>
+    <% if current_user.addresses.any? %>
+      <%= form.collection_select :shipping_address_id, current_user.addresses, :id, :full_address, include_blank: 'New Address' %>
+    <% else %>
+      <%= form.fields_for :shipping_address do |sa_form| %>
+        <div>
+          <%= sa_form.label :street %>
+          <%= sa_form.text_field :street %>
+        </div>
+        <div>
+          <%= sa_form.label :city %>
+          <%= sa_form.text_field :city %>
+        </div>
+        <div>
+          <%= sa_form.label :province %>
+          <%= sa_form.select :province, options_for_select(Province.all.collect { |p| [p.name, p.id] }) %>
+        </div>
+        <div>
+          <%= sa_form.label :postal_code %>
+          <%= sa_form.text_field :postal_code %>
+        </div>
+        <div>
+          <%= sa_form.label :country %>
+          <%= sa_form.select :country, options_for_select(['Canada', 'United States', 'Mexico']) %>
+        </div>
+      <% end %>
+    <% end %>
+  </fieldset>
+
+  <%= form.submit "Place Order" %>
+<% end %>
