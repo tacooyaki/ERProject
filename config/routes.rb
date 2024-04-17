@@ -22,13 +22,14 @@ Rails.application.routes.draw do
 
   # Order processing
   resources :orders, only: [:new, :create, :show] do
-    get 'confirmation', on: :member
+    get 'confirmation', on: :member, as: 'confirmation_order'
   end
 
   get 'products/search', to: 'products#search', as: :search_products
 
-  get 'orders/:id/confirmation', to: 'orders#confirmation', as: 'order_confirmation'
-
+  # testing
+  #get 'orders/:id/confirmation', to: 'orders#confirmation', as: 'order_confirmation'
+  #get ':id/confirmation', to: 'orders#confirmation', as: 'confirmation'
 
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
