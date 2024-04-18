@@ -1,11 +1,22 @@
-
-AdminUser.create!(email: 'admin@example.com', password: 'password',
-                  password_confirmation: 'password') if Rails.env.development?
+AdminUser.find_or_create_by(email: 'admin@example.com') do |user|
+  user.password = 'password'
+  user.password_confirmation = 'password'
+end
 
 tax_rates = [
-  { province: "Ontario", gst: 5, pst: 8, hst: 0 },
+  { province: "Alberta", gst: 5, pst: 0, hst: 0 },
   { province: "British Columbia", gst: 5, pst: 7, hst: 0 },
-  { province: "Nova Scotia", gst: 0, pst: 0, hst: 15 }
+  { province: "Manitoba", gst: 5, pst: 7, hst: 0 },
+  { province: "New Brunswick", gst: 0, pst: 0, hst: 15 },
+  { province: "Newfoundland and Labrador", gst: 0, pst: 0, hst: 15 },
+  { province: "Northwest Territories", gst: 5, pst: 0, hst: 0 },
+  { province: "Nova Scotia", gst: 0, pst: 0, hst: 15 },
+  { province: "Nunavut", gst: 5, pst: 0, hst: 0 },
+  { province: "Ontario", gst: 0, pst: 0, hst: 13 },
+  { province: "Prince Edward Island", gst: 0, pst: 0, hst: 15 },
+  { province: "Quebec", gst: 5, pst: 9.975, hst: 0 },
+  { province: "Saskatchewan", gst: 5, pst: 6, hst: 0 },
+  { province: "Yukon", gst: 5, pst: 0, hst: 0 }
 ]
 
 tax_rates.each do |rate|

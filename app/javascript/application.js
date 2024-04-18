@@ -4,3 +4,11 @@ import "./controllers"
 
 import "trix"
 import "@rails/actiontext"
+
+import Rails from '@rails/ujs';
+Rails.start();
+
+//= require jquery
+//= require jquery_ujs
+//= require turbolinks
+//= require_tree .

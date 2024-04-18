@@ -1,0 +1,15 @@
+<h1>User Profile</h1>
+<p>Welcome, <%= @user.name %></p>
+
+<h3>Your Addresses:</h3>
+<% @user.addresses.each do |address| %>
+  <p><%= address.full_address %></p>
+<% end %>
+<%= link_to 'Add Address', new_user_address_path(@user) %>
+
+<h3>Your Orders:</h3>
+<% @user.orders.each do |order| %>
+  <p>Order ID: <%= order.id %>, Total: <%= order.total %></p>
+<% end %>
+
+<%= link_to 'Edit Profile', edit_user_registration_path %>

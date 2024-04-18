@@ -49,7 +49,8 @@ gem 'mini_magick'
 # Adds pagination
 gem 'kaminari'
 
-
+# jQuery
+gem 'jquery-rails'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

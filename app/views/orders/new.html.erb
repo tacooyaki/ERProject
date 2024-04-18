@@ -1,6 +1,6 @@
-<%= form_with model: @order, local: true do |form| %>
+<%= form_with model: @order, local: true, html: { class: 'order-form' } do |form| %>
   <% if @order.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="alert alert-danger">
       <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
       <ul>
         <% @order.errors.full_messages.each do |message| %>
@@ -10,35 +10,51 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend>Shipping Address</legend>
+  <h3>Review Your Order</h3>
+
+  <fieldset class="border p-3 rounded">
+    <legend class="w-auto">Shipping Address</legend>
     <% if current_user.addresses.any? %>
-      <%= form.collection_select :shipping_address_id, current_user.addresses, :id, :full_address, include_blank: 'New Address' %>
-    <% else %>
+      <%= form.collection_select :shipping_address_id, current_user.addresses, :id, :full_address %>
+  <% else %>
       <%= form.fields_for :shipping_address do |sa_form| %>
-        <div>
-          <%= sa_form.label :street %>
-          <%= sa_form.text_field :street %>
-        </div>
-        <div>
-          <%= sa_form.label :city %>
-          <%= sa_form.text_field :city %>
-        </div>
-        <div>
-          <%= sa_form.label :province %>
-          <%= sa_form.select :province, options_for_select(Province.all.collect { |p| [p.name, p.id] }) %>
-        </div>
-        <div>
-          <%= sa_form.label :postal_code %>
-          <%= sa_form.text_field :postal_code %>
-        </div>
-        <div>
-          <%= sa_form.label :country %>
-          <%= sa_form.select :country, options_for_select(['Canada', 'United States', 'Mexico']) %>
-        </div>
+        <%= render 'shipping_address_fields', f: sa_form %>
       <% end %>
     <% end %>
   </fieldset>
 
-  <%= form.submit "Place Order" %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @cart_items.each do |product, quantity| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= quantity %></td>
+        <td>$<%= product.price %></td>
+        <td>$<%= product.price * quantity %></td>
+      </tr>
+    <% end %>
+    <tr class="table-info">
+      <td colspan="3"><strong>Subtotal</strong></td>
+      <td id="subtotal">$<%= @order.subtotal %></td>
+    </tr>
+    <tr class="table-info">
+      <td colspan="3"><strong>Tax</strong></td>
+      <td id="tax">$<%= @order.tax %></td>
+    </tr>
+    <tr class="table-success">
+      <td colspan="3"><strong>Total</strong></td>
+      <td id="total">$<%= @order.total %></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <%= form.submit "Place Order", class: 'btn btn-primary mt-3' %>
 <% end %>
