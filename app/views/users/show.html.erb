@@ -2,10 +2,10 @@
 <p>Welcome, <%= @user.name %></p>
 
 <h3>Your Addresses:</h3>
-<%= link_to 'Add Address', new_user_address_path(@user) %>
+<p><%= link_to 'Add Address', new_user_address_path(@user) %></p>
 <% @user.addresses.each do |address| %>
   <p><%= address.full_address %></p>
-  <%= link_to 'Edit', edit_user_address_path(@user, address), class: 'btn btn-link' %>
+  <%= link_to 'Edit Address', edit_user_address_path(@user, address), class: 'btn btn-link' %>
 <% end %>
 
 
