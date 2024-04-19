@@ -8,8 +8,9 @@
 <%= link_to 'Add Address', new_user_address_path(@user) %>
 
 <h3>Your Orders:</h3>
-<% @user.orders.each do |order| %>
-  <p>Order ID: <%= order.id %>, Total: <%= order.total %></p>
+<%= link_to 'View All Orders', user_user_orders_path(@user), class: 'btn btn-link' %>
+<% @user.orders.order(created_at: :desc).limit(3).each do |order| %>
+  <p>Order Number: <%= order.id %>, Total: <%= '%.2f' % order.total %></p>
 <% end %>
 
-<%= link_to 'Edit Profile', edit_user_registration_path %>
+<%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary' %>

@@ -1,25 +1,37 @@
 Rails.application.routes.draw do
-
+  # Devise
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
+  # Root
   root 'products#index'
 
+  # Users and Addresses
   resources :users do
     resources :addresses, only: [:new, :create, :edit, :update, :destroy]
-    resources :orders, only: [:index], as: 'user_orders'
+    get 'orders', to: 'orders#index', as: 'user_orders'  # Adds a user-specific orders path
   end
 
-  resources :orders, only: [:new, :create, :show, :index] do
-    post 'review', on: :member
-    post 'confirmation', on: :member
+# new add
+  post 'orders/process_review', to: 'orders#process_review', as: 'process_review_order'
+
+  # Orders
+  resources :orders, except: [:edit, :update, :destroy] do
+    collection do
+      get 'recalculate'
+      post 'review'
+      get 'display_review'
+    end
+    member do
+      get 'confirmation'
+    end
   end
 
-  get 'user_orders', to: 'orders#index', as: 'user_orders'
+  # Recalculate
+  get 'recalculate', to: 'orders#recalculate', as: 'recalculate_order'
 
-  post 'orders/:id/update_financials', to: 'orders#update_financials', as: :update_order_financials
-
+  # Shopping Cart
   resources :products, only: [:index, :show]
   resources :categories, only: [:index] do
     resources :products, only: [:index], path: 'products', as: 'category_products'
@@ -32,11 +44,6 @@ Rails.application.routes.draw do
 
   get 'products/search', to: 'products#search', as: :search_products
 
-  resources :orders do
-    member do
-      post :update_financials
-    end
-  end
-
+  # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 end

@@ -1,0 +1,7 @@
+<%= form_with model: @order, url: review_orders_path, method: :post, local: true do |f| %>
+  <fieldset>
+    <legend>Select Shipping Address</legend>
+    <%= f.collection_select :shipping_address_id, current_user.addresses, :id, :full_address, name: 'order[shipping_address_id]' %>
+    <%= f.submit "Review Order", class: 'btn btn-primary' %>
+  </fieldset>
+<% end %>

@@ -1,7 +1,39 @@
-<h1>Orders#show</h1>
-<p>Shipping Address ID: <%= @order.shipping_address_id %></p>
-<% if @order.shipping_address %>
-  <p>Shipping Address Details: <%= @order.shipping_address.full_address %></p>
-<% else %>
-  <p>No shipping address assigned.</p>
-<% end %>
+<h1>Order Details</h1>
+<p>Order Number: <%= @order.id %></p>
+<p>Shipping Address: <%= @order.shipping_address.full_address if @order.shipping_address %></p>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Product</th>
+    <th>Quantity</th>
+    <th>Unit Price</th>
+    <th>Total Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @order.order_items.each do |item| %>
+    <tr>
+      <td><%= item.product.name %></td>
+      <td><%= item.quantity %></td>
+      <td>$<%= '%.2f' % item.unit_price %></td>
+      <td>$<%= '%.2f' % (item.unit_price * item.quantity) %></td>
+    </tr>
+  <% end %>
+
+  <tr class="table-info">
+    <td colspan="3">Subtotal</td>
+    <td>$<%= '%.2f' % @order.subtotal %></td>
+  </tr>
+  <tr class="table-info">
+    <td colspan="3">Tax</td>
+    <td>$<%= '%.2f' % @order.tax %></td>
+  </tr>
+  <tr class="table-success">
+    <td colspan="3">Total</td>
+    <td>$<%= '%.2f' % @order.total %></td>
+  </tr>
+  </tbody>
+</table>
+
+<%= link_to 'View My Orders', user_user_orders_path(@order.user) %>

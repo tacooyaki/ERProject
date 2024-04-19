@@ -1,0 +1,33 @@
+<% if @order.valid? %>
+  <%= form_with model: @order, url: process_review_order_path, method: :post, local: true do |form| %>
+    <p><strong>Address:</strong> <%= @order.shipping_address.full_address %></p>
+
+    <%= form.hidden_field :shipping_address_id %>
+    <% @order.order_items.each do |item| %>
+      <%= form.hidden_field :order_items_attributes, multiple: true, value: item.attributes.to_json %>
+      <%= form.hidden_field :order_items_attributes, multiple: true, name: "order[order_items_attributes][][product_id]", value: item.product_id %>
+      <%= form.hidden_field :order_items_attributes, multiple: true, name: "order[order_items_attributes][][quantity]", value: item.quantity %>
+      <%= form.hidden_field :order_items_attributes, multiple: true, name: "order[order_items_attributes][][unit_price]", value: item.unit_price %>
+
+    <% end %>
+
+    <table class="table">
+      <tr class="table-info">
+        <td colspan="3"><strong>Subtotal</strong></td>
+        <td>$<%= @order.subtotal %></td>
+      </tr>
+      <tr class="table-info">
+        <td colspan="3"><strong>Tax</strong></td>
+        <td>$<%= @order.tax %></td>
+      </tr>
+      <tr class="table-success">
+        <td colspan="3"><strong>Total</strong></td>
+        <td>$<%= @order.total %></td>
+      </tr>
+    </table>
+
+    <%= form.submit "Confirm Order", class: 'btn btn-primary mt-3' %>
+  <% end %>
+<% else %>
+  <p>Please complete the order details first.</p>
+<% end %>

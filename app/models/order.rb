@@ -2,13 +2,14 @@ class Order < ApplicationRecord
   belongs_to :shipping_address, class_name: 'Address', optional: true
   belongs_to :billing_address, class_name: 'Address', optional: true
   belongs_to :user
-  has_many :order_items
+  has_many :order_items, dependent: :destroy # new add of dependent: : destroy
   has_many :products, through: :order_items
 
   validates :shipping_address_id, presence: true
 
   accepts_nested_attributes_for :shipping_address
   accepts_nested_attributes_for :billing_address
+  accepts_nested_attributes_for :order_items, allow_destroy: true
 
   before_save :update_financials
 
