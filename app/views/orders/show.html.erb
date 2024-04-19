@@ -1,2 +1,7 @@
 <h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<p>Shipping Address ID: <%= @order.shipping_address_id %></p>
+<% if @order.shipping_address %>
+  <p>Shipping Address Details: <%= @order.shipping_address.full_address %></p>
+<% else %>
+  <p>No shipping address assigned.</p>
+<% end %>

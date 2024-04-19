@@ -1,16 +1,29 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_order, only: [:review, :confirmation]
+
+  def new
+    @order = current_user.orders.build
+    setup_addresses_for(@order)
+    load_cart_items
+  end
+
+  def review
+    if @order.update(order_params)
+      calculate_financials(@order)
+      render :review
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
 
   def confirmation
-    @order = Order.find_by(id: params[:id])
-    if @order.nil?
-      redirect_to root_path, alert: "Order not found."
-      return
-    end
 
-    if @order.user != current_user
-      redirect_to root_path, alert: "You do not have access to this order."
-      return
+    if @order.save
+      session[:shopping_cart].clear
+      redirect_to order_path(@order), notice: 'Thank you for your order.'
+    else
+      render :review, status: :unprocessable_entity
     end
   end
 
@@ -20,88 +33,46 @@ class OrdersController < ApplicationController
     redirect_to orders_path, alert: "Order not found."
   end
 
-
   def index
     @orders = current_user.orders.order(created_at: :desc)
   end
 
-  def new
-    if session[:shopping_cart].blank? || session[:shopping_cart].all? { |_, quantity| quantity.zero? }
-      redirect_to cart_path, alert: "Your cart is empty. Please add some products before checking out."
-    else
-      @order = current_user.orders.build
-      setup_addresses_for(@order)
-      load_cart_items
-      @order.subtotal = @order.calculate_subtotal
-      @order.tax = @order.calculate_tax
-      @order.total = @order.calculate_total
-    end
-  end
-
-  def create
-    @order = current_user.orders.build(order_params)
-    build_order_items
-    @order.tax = @order.calculate_tax
-
-    if @order.shipping_address.nil?
-      flash.now[:alert] = 'Shipping address is required.'
-      setup_addresses_for(@order)
-      load_cart_items
-      render :new, status: :unprocessable_entity and return
-    end
-
-    if @order.save
-      session[:shopping_cart].clear
-      redirect_to confirmation_order_order_path(@order), notice: 'Thank you for your order.'
-    else
-      setup_addresses_for(@order)
-      load_cart_items
-      render :new, status: :unprocessable_entity
-    end
-  end
-
-  def update_financials
-    @order = current_user.orders.build(order_params)
-    @order.subtotal = @order.calculate_subtotal
-    @order.tax = @order.calculate_tax
-    @order.total = @order.calculate_total
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
   private
 
+  def set_order
+    @order = current_user.orders.find_by(id: params[:order_id])
+    unless @order
+      redirect_to new_order_path, alert: "Invalid order. Please start a new order."
+    end
+  end
+
   def order_params
-    params.require(:order).permit(
-      :shipping_address_id,
-      shipping_address_attributes: [:street, :city, :province, :postal_code, :country],
-      billing_address_attributes: [:street, :city, :province, :postal_code, :country]
-    )
+    params.require(:order).permit(:shipping_address_id)
   end
 
   def setup_addresses_for(order)
-    order.build_shipping_address unless order.shipping_address || order.shipping_address_id.present?
-    order.build_billing_address unless order.billing_address || order.billing_address_id.present?
-  end
-
-
-  def build_order_items
-    session[:shopping_cart].each do |product_id, quantity|
-      product = Product.find_by(id: product_id)
-      if product
-        @order.order_items.build(product: product, quantity: quantity, unit_price: product.price)
-      end
-    end
+    order.build_shipping_address unless order.shipping_address
   end
 
   def load_cart_items
-    @cart_items = []
-    session[:shopping_cart].each do |product_id, quantity|
+    @cart_items = session[:shopping_cart].map do |product_id, quantity|
       product = Product.find_by(id: product_id)
-      @cart_items << [product, quantity] if product
-    end
+      [product, quantity] if product
+    end.compact
   end
 
+  def calculate_financials(order)
+    order.subtotal = order.order_items.sum { |item| item.unit_price * item.quantity }
+    order.tax = calculate_tax(order)
+    order.total = order.subtotal + order.tax
+  end
+
+  def calculate_tax(order)
+    if order.shipping_address
+      tax_rate = TaxRate.find_by(province: order.shipping_address.province)
+      tax_rate ? order.subtotal * ((tax_rate.gst + tax_rate.pst + tax_rate.hst) / 100) : 0
+    else
+      0
+    end
+  end
 end

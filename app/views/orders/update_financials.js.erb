@@ -1,4 +1,4 @@
 // Updates the DOM with taxes and total values
-document.getElementById("subtotal").innerText = '<%= @order.subtotal %>';
-document.getElementById("tax").innerText = '<%= @order.tax %>';
-document.getElementById("total").innerText = '<%= @order.total %>';
+$('#subtotal').text('<%= number_to_currency(@order.subtotal) %>');
+$('#tax').text('<%= number_to_currency(@order.tax) %>');
+$('#total').text('<%= number_to_currency(@order.total) %>');

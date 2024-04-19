@@ -11,11 +11,14 @@ Rails.application.routes.draw do
     resources :orders, only: [:index], as: 'user_orders'
   end
 
-  resources :orders, only: [:new, :create, :show] do
-    get 'confirmation', on: :member, as: 'confirmation_order'
+  resources :orders, only: [:new, :create, :show, :index] do
+    post 'review', on: :member
+    post 'confirmation', on: :member
   end
 
   get 'user_orders', to: 'orders#index', as: 'user_orders'
+
+  post 'orders/:id/update_financials', to: 'orders#update_financials', as: :update_order_financials
 
   resources :products, only: [:index, :show]
   resources :categories, only: [:index] do

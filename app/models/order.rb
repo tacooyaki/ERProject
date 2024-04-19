@@ -13,7 +13,7 @@ class Order < ApplicationRecord
   before_save :update_financials
 
   def calculate_subtotal
-    order_items.sum { |item| item.unit_price * item.quantity }
+    order_items.sum { |item| (item.unit_price || 0) * (item.quantity || 0) }
   end
 
   def calculate_tax
@@ -24,13 +24,21 @@ class Order < ApplicationRecord
     subtotal + tax
   end
 
-  private
-
   def calculate_financials
-    self.tax = calculate_tax
+    Rails.logger.debug "Calculating subtotal..."
     self.subtotal = calculate_subtotal
+    Rails.logger.debug "Subtotal calculated: #{subtotal}"
+
+    Rails.logger.debug "Calculating tax..."
+    self.tax = calculate_tax
+    Rails.logger.debug "Tax calculated: #{tax}"
+
+    Rails.logger.debug "Calculating total..."
     self.total = calculate_total
+    Rails.logger.debug "Total calculated: #{total}"
   end
+
+  private
 
   def update_financials
     self.subtotal = calculate_subtotal
