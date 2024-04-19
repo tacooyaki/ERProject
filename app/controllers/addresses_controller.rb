@@ -1,9 +1,14 @@
 class AddressesController < ApplicationController
-  before_action :set_user, only: [:new, :create]
   before_action :authenticate_user!
+  before_action :set_user
+  before_action :set_address, only: [:edit, :update]
+
 
   def new
     @address = Address.new
+  end
+
+  def edit
   end
 
   def create
@@ -15,10 +20,22 @@ class AddressesController < ApplicationController
     end
   end
 
+  def update
+    if @address.update(address_params)
+      redirect_to user_path(@user), notice: 'Address was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
   private
 
   def set_user
     @user = User.find(params[:user_id])
+  end
+
+  def set_address
+    @address = @user.addresses.find(params[:id])
   end
 
   def address_params
