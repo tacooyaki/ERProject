@@ -1,36 +1,40 @@
-<h1>Available Products</h1>
+<h1 class="title">Available Products</h1>
 
-<!-- Adds links for each category. Can be used on other views that need category navigation. -->
-<% Category.all.each do |category| %>
-  <%= link_to category.name, category_category_products_path(category_id: category.id) %>
-<% end %>
+<div class="buttons">
+  <% Category.all.each do |category| %>
+    <%= link_to category.name, category_category_products_path(category_id: category.id), class: "button is-small is-primary" %>
+  <% end %>
 
-<%= link_to 'Recently Added', products_path(recently_added: true) %>
-<%= link_to 'Recently Updated', products_path(recently_updated: true) %>
+  <%= link_to 'Recently Added', products_path(recently_added: true), class: "button is-small is-info" %>
+  <%= link_to 'Recently Updated', products_path(recently_updated: true), class: "button is-small is-info" %>
+</div>
 
-<!-- Place where needed during final cleanup, not a perm spot.-->
 <%= render 'search_form' %>
 
 <% if @category %>
-  <h2><%= @category.name %> Products</h2>
+  <h2 class="title is-4"><%= @category.name %> Products</h2>
 <% else %>
-  <h2>All Products</h2>
+  <h2 class="title is-4">All Products</h2>
 <% end %>
 
-<div class="products-grid">
+<div class="columns is-multiline">
   <% @products.each do |product| %>
-    <div class="product-card">
-      <% if product.images.attached? %>
-        <%= image_tag product.images.first %>
-      <% end %>
-      <h2><%= product.name %></h2>
-      <p><%= product.description %></p>
-      <p><%= number_to_currency(product.price) %></p>
-      <%= link_to 'View Product', product_path(product), class: 'view-product-btn' %>
+    <div class="column is-one-third">
+      <div class="card">
+        <div class="card-image">
+          <% if product.images.attached? %>
+            <%= image_tag product.images.first.variant(resize_to_fill: [300, 200]), class: "image is-4by3" %>
+          <% end %>
+        </div>
+        <div class="card-content">
+          <h3 class="title is-5"><%= product.name %></h3>
+          <p><%= product.description %></p>
+          <p><%= number_to_currency(product.price) %></p>
+          <%= link_to 'View Product', product_path(product), class: 'button is-link' %>
+        </div>
+      </div>
     </div>
   <% end %>
-
-  <%= paginate @products %>
-
-
 </div>
+
+<%= paginate @products, class: 'pagination' %>

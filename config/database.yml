@@ -23,7 +23,7 @@ development:
   <<: *default
   database: er_project_development
   username: postgres
-  password: <%= ENV['ER_PROJECT_DEVELOPMENT_PASSWORD'] %>
+  password: password
   host: localhost
 
   # The specified database role being used to connect to PostgreSQL.
@@ -60,7 +60,7 @@ test:
   <<: *default
   database: er_project_test
   username: postgres
-  password: <%= ENV['ER_PROJECT_TEST_PASSWORD'] %>
+  password: password
   host: localhost
 
 
@@ -88,6 +88,6 @@ production:
   <<: *default
   database: er_project_production
   username: er_project
-  password: <%= ENV["ER_PROJECT_DATABASE_PASSWORD"] %>
+  password: password
   host: localhost
 

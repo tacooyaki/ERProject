@@ -1,11 +1,23 @@
-<%= form_with(url: products_path, method: :get, local: true) do |form| %>
-  <%= form.text_field :search, placeholder: "Search products..." %>
+<div class="box">
+  <%= form_with(url: products_path, method: :get, local: true, class: "form") do |form| %>
+    <div class="field">
+      <%= form.text_field :search, placeholder: "Search products...", class: "input" %>
+    </div>
 
-  <%= form.collection_select :category_id, Category.all, :id, :name, include_blank: "All Categories" %>
+    <div class="field">
+      <%= form.collection_select :category_id, Category.all, :id, :name, { include_blank: "All Categories" },
+                                 { class: "select" } %>
+    </div>
 
-  <%= form.check_box :on_sale %>
+    <div class="field">
+      <label class="checkbox">
+        <%= form.check_box :on_sale %>
+        <%= form.label :on_sale, "Only Show On Sale Products" %>
+      </label>
+    </div>
 
-  <%= form.label :on_sale, "Only Show On Sale Products" %>
-
-  <%= form.submit "Search" %>
-<% end %>
+    <div class="control">
+      <%= form.submit "Search", class: "button is-primary" %>
+    </div>
+  <% end %>
+</div>

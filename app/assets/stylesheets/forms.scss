@@ -1,0 +1,29 @@
+.form {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  .field {
+    margin-bottom: 1rem;
+
+    .label {
+      color: $primary-color;
+    }
+
+    .input, .select {
+      border-color: lighten($primary-color, 10%);
+    }
+
+    .input:focus, .select:focus {
+      box-shadow: 0 0 0 0.125em rgba($primary-color, 0.25);
+    }
+  }
+
+  .button {
+    background-color: $secondary-color;
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+    }
+  }
+}

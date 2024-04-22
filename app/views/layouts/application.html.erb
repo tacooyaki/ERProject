@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta name="csrf-token" content="<%= form_authenticity_token %>">
   <title>Green Thumb Gear</title>
@@ -7,36 +7,50 @@
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-
 </head>
 <body>
+
 <header>
-  <nav>
-    <%= link_to 'Home', root_path %>
-    <%= link_to 'Categories', categories_path %>
-    <%= link_to 'Cart', cart_path %>
-    <% if session[:shopping_cart].present? %>
-      (<%= session[:shopping_cart].values.sum %> items)
-    <% end %>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Green Thumb Gear</span>
+      </div>
+    </div>
 
-    <% if user_signed_in? %>
-      <%= link_to 'Checkout', new_order_path, class: "checkout-link" %>
-    <% end %>
+    <div id="navbarMain" class="navbar-menu">
+      <div class="navbar-start">
+        <%= link_to 'Home', root_path, class: "button is-light" %>
+        <%= link_to 'Categories', categories_path, class: "button is-light" %>
+        <%= link_to 'Cart', cart_path, class: "button is-light" %>
+        <% if session[:shopping_cart].present? %>
+          (<%= session[:shopping_cart].values.sum %> items)
+        <% end %>
+        <% if user_signed_in? %>
+          <%= link_to 'My Profile', user_path(current_user), class: "button is-light" %>
+          <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "button is-light" %>
+        <% else %>
+          <%= link_to 'Sign Up', new_user_registration_path, class: "button is-primary" %>
+          <%= link_to 'Login', new_user_session_path, class: "button is-light" %>
+        <% end %>
+      </div>
 
-    <% if user_signed_in? %>
-      <%= link_to 'My Profile', user_path(current_user) %>
-      <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-
-  <% else %>
-      <%= link_to 'Sign Up', new_user_registration_path %>
-      <%= link_to 'Login', new_user_session_path %>
-    <% end %>
-
-    <%= form_with url: search_products_path, method: :get, local: true do |form| %>
-      <%= form.text_field :query, placeholder: 'Search products...' %>
-      <%= form.submit 'Search' %>
-    <% end %>
+        <div class="navbar-end">
+          <div class="navbar-item has-addons">
+            <%= form_with url: search_products_path, method: :get, local: true do |form| %>
+                <%= form.text_field :query, placeholder: 'Search...', class: 'input is-small', style: "width: 180px;" %>
+                <%= form.submit '🔍', class: 'button is-info is-small' %>
+            <% end %>
+        </div>
+      </div>
+    </div>
   </nav>
+
+  <% flash.each do |key, message| %>
+    <div class="notification <%= key == 'notice' ? 'is-primary' : 'is-danger' %> flash-message">
+      <%= message %>
+    </div>
+  <% end %>
 </header>
 
 <main>

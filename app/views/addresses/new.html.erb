@@ -1,19 +1,18 @@
-<h1>Add New Address</h1>
+<h1 class="title">Add New Address</h1>
 
-<%= form_with model: [@user, @address], local: true do |form| %>
-
+<%= form_with model: [@user, @address], local: true, html: { class: 'form' } do |form| %>
   <div class="field">
-    <%= form.label :street %>
-    <%= form.text_field :street, required: true %>
+    <%= form.label :street, class: 'label' %>
+    <%= form.text_field :street, class: 'input', required: true %>
   </div>
 
   <div class="field">
-    <%= form.label :city %>
-    <%= form.text_field :city, required: true %>
+    <%= form.label :city, class: 'label' %>
+    <%= form.text_field :city, class: 'input', required: true %>
   </div>
 
   <div class="field">
-    <%= form.label :province %>
+    <%= form.label :province, class: 'label' %>
     <%= form.select :province, options_for_select([
         ['Alberta', 'Alberta'], ['British Columbia', 'British Columbia'], ['Manitoba', 'Manitoba'],
         ['New Brunswick', 'New Brunswick'], ['Newfoundland and Labrador', 'Newfoundland and Labrador'],
@@ -24,16 +23,19 @@
   </div>
 
   <div class="field">
-    <%= form.label :postal_code %>
+    <%= form.label :postal_code, class: 'label' %>
     <%= form.text_field :postal_code, class: 'form-control', required: true, placeholder: "Format: A1A 1A1", pattern: "[A-Za-z]\\d[A-Za-z] ?\\d[A-Za-z]\\d" %>
   </div>
 
   <div class="field">
-    <%= form.label :country %>
+    <%= form.label :country, class: 'label' %>
     <%= form.select :country, options_for_select(['Canada'], selected: @address.country), required: true %>
   </div>
 
   <div class="actions">
     <%= form.submit "Save Address" %>
   </div>
+
+  <%= link_to 'My Profile', user_path(current_user) %>
+
 <% end %>
