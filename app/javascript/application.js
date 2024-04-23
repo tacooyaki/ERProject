@@ -10,7 +10,5 @@ Rails.start();
 window.$ = $;
 window.jQuery = $;
 
-import "./address_handler";
-
 import "./flash_messages";
 
