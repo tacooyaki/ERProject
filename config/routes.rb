@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     get 'orders', to: 'orders#index', as: 'user_orders'  # Adds a user-specific orders path
   end
 
-# new add
+  # new add
   post 'orders/process_review', to: 'orders#process_review', as: 'process_review_order'
 
   # Orders
@@ -48,4 +48,5 @@ Rails.application.routes.draw do
 
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
+
 end

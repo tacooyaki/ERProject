@@ -25,6 +25,10 @@ class OrdersController < ApplicationController
 
   def recalculate
     @order = current_user.orders.build
+    unless current_user.addresses.exists?
+      flash[:alert] = "You must add a shipping address before you can proceed."
+      redirect_to new_user_address_path(user_id: current_user.id) and return
+    end
   end
 
   def review

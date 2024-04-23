@@ -37,6 +37,10 @@ footer {
     width: 100%;
 }
 
+.navbar-start {
+    margin-top: 5px;
+}
+
 .products-grid {
     display: flex;
     flex-wrap: wrap;
@@ -122,6 +126,7 @@ footer {
     transition: opacity 0.6s ease-out;
     opacity: 1;
 }
+
 
 // Responsive adjustments
 @media (max-width: 768px) {

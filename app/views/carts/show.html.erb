@@ -34,7 +34,10 @@
 <% end %>
 
 <div class="checkout">
-  <%= link_to 'Proceed to Address Selection', recalculate_order_path, class: 'btn btn-primary' %>
+  <div class="columns">
+    <div class="column is-three-quarters"><%= link_to 'Continue Shopping', products_path, class: 'button is-primary is-normal' %></div>
+    <div class="column is-three-quarters"><%= link_to 'Proceed to Address Selection', recalculate_order_path, class: 'button is-primary is-normal' %></div>
+  </div>
 </div>
 
-<%= link_to 'Continue Shopping', products_path, class: 'btn btn-secondary' %>
+
