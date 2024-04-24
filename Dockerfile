@@ -8,10 +8,10 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 WORKDIR /rails
 
 # Set production environment
-ENV RAILS_ENV="production" \
+ENV RAILS_ENV="development" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="production"
 
 
 # Throw-away build stage to reduce size of final image
@@ -19,7 +19,8 @@ FROM base as build
 
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3
+    apt-get install --no-install-recommends -y imagemagick build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3 libjpeg-dev libpng-dev
+RUN magick -version || echo "ImageMagick installation check failed"
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=18.12.0
