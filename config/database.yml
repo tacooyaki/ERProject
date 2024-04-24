@@ -12,8 +12,8 @@ default: &default
   username: <%= ENV.fetch("POSTGRES_USER") { 'postgres' } %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD") { 'password' } %>
   # Change the host to localhost for local development
-  # host: localhost
-  host: <%= ENV['DB_HOST'] %>
+  host: localhost
+  # host: <%= ENV['DB_HOST'] %>
 
 development:
   <<: *default

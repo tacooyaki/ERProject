@@ -48,13 +48,13 @@ class OrdersController < ApplicationController
 
   def process_review
     @order = Order.new(session[:order_details])
-    @order.assign_attributes(order_params)
-    @order.order_items.build(session[:order_items] || [])
+    @order.assign_attributes(order_params.except(:order_items_attributes))
+    order_params[:order_items_attributes]&.each do |item_attributes|
+      @order.order_items.build(item_attributes)
+    end
 
     if @order.save
-      session.delete(:shopping_cart)
-      session.delete(:order_details)
-      session.delete(:order_items)
+      clear_order_session
       redirect_to order_path(@order), notice: 'Order successfully placed.'
     else
       render :review, alert: 'There was an error placing your order.'
@@ -87,6 +87,12 @@ class OrdersController < ApplicationController
   end
 
   private
+
+  def clear_order_session
+    session.delete(:shopping_cart)
+    session.delete(:order_details)
+    session.delete(:order_items)
+  end
 
   def set_order
     @order = current_user.orders.find_by(id: params[:id])
